@@ -1,6 +1,6 @@
 name: Build
 
-on: [push]
+on: [workflow_dispatch, push]
 
 env:
   TOOLCHAIN: samsung
@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        model: [ "N976N" ]
+        model: [ "G973F" ]
 
     steps:
       - uses: actions/checkout@v3
