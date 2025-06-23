@@ -6,7 +6,7 @@ flock -n 9 || exit 0
 
 AUTHOR="KernelSU-Next"
 REPO="KernelSU-Next"
-#LATEST_RELEASE=$(curl -s -k "https://api.github.com/repos/KernelSU-Next/KernelSU-Next/releases/latest" | grep -oP '"tag_name": "\K[^"]+')
+LATEST_RELEASE=$(curl -s -k "https://api.github.com/repos/KernelSU-Next/KernelSU-Next/releases/latest" | grep -oP '"tag_name": "\K[^"]+')
 VERSION=`curl -s -I -k "https://api.github.com/repos/$AUTHOR/$REPO/commits?per_page=1&sha=$LATEST_RELEASE" | sed -n '/^[Ll]ink:/ s/.*"next".*page=\([0-9]*\).*"last".*/\1/p'`
 
 # Latest version fetched from next-susfs branch is always two commit newer than the latest release
