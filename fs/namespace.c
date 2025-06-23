@@ -4591,7 +4591,7 @@ void susfs_run_try_umount_for_current_mnt_ns(void) {
 }
 #endif
 #ifdef CONFIG_KSU_SUSFS
-bool susfs_is_mnt_devname_ksu(struct path *path) {
++bool susfs_is_mnt_devname_ksu(struct path *path) {
 	struct mount *mnt;
 
 	if (path && path->mnt) {

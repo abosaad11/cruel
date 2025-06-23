@@ -42,7 +42,7 @@ static void show_fdinfo(struct seq_file *m, struct file *f,
 
 	mutex_lock(&group->mark_mutex);
 	list_for_each_entry(mark, &group->marks_list, g_list) {
-#ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
+#ifdef
 		show(m, mark, f);
 #else
 		show(m, mark);
