@@ -127,7 +127,7 @@
      int err;
 	 
  #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
- 	 if (unlikely(r->mnt_id >= DEFAULT_SUS_MNT_ID)&&(susfs_hide_sus_mnts_for_all_procs || !susfs_is_current_ksu_domain()))
+ 	 if (susfs_hide_sus_mnts_for_all_procs && r->mnt_id >= DEFAULT_SUS_MNT_ID)
  		 return 0;
  #endif
 
@@ -171,7 +171,7 @@
      int err;
 	 
  #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
- 	 if (unlikely(r->mnt_id >= DEFAULT_SUS_MNT_ID)&&(susfs_hide_sus_mnts_for_all_procs || !susfs_is_current_ksu_domain()))
+ 	 if (susfs_hide_sus_mnts_for_all_procs && r->mnt_id >= DEFAULT_SUS_MNT_ID)
  		 return 0;
  #endif
  
@@ -243,7 +243,7 @@
      int err;
 	 
  #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
- 	 if (unlikely(r->mnt_id >= DEFAULT_SUS_MNT_ID)&&(susfs_hide_sus_mnts_for_all_procs || !susfs_is_current_ksu_domain()))
+ 	 if (susfs_hide_sus_mnts_for_all_procs && r->mnt_id >= DEFAULT_SUS_MNT_ID)
     	 return 0;
  #endif
 
