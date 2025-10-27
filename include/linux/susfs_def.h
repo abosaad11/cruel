@@ -22,7 +22,6 @@
 #define CMD_SUSFS_ENABLE_LOG 0x555a0
 #define CMD_SUSFS_SET_CMDLINE_OR_BOOTCONFIG 0x555b0
 #define CMD_SUSFS_ADD_OPEN_REDIRECT 0x555c0
-#define CMD_SUSFS_RUN_UMOUNT_FOR_CURRENT_MNT_NS 0x555d0
 #define CMD_SUSFS_SHOW_VERSION 0x555e1
 #define CMD_SUSFS_SHOW_ENABLED_FEATURES 0x555e2
 #define CMD_SUSFS_SHOW_VARIANT 0x555e3
@@ -30,6 +29,7 @@
 #define CMD_SUSFS_IS_SUS_SU_READY 0x555f0
 #define CMD_SUSFS_SUS_SU 0x60000
 #define CMD_SUSFS_ENABLE_AVC_LOG_SPOOFING 0x60010
+#define CMD_SUSFS_ADD_SUS_MAP 0x60020
 
 #define SUSFS_MAX_LEN_PATHNAME 256 // 256 should address many paths already unless you are doing some strange experimental stuff, then set your own desired length
 #define SUSFS_FAKE_CMDLINE_OR_BOOTCONFIG_SIZE 4096
@@ -52,9 +52,8 @@
  * nd->flags => storing flag 'ND_FLAGS_'
  * task_struct->thread_info.flags => storing flag 'TIF_'
  */
- // thread_info->flags is unsigned long :D
-#define TIF_NON_ROOT_USER_APP_PROC 33
-#define TIF_PROC_SU_NOT_ALLOWED 34
+//#define TASK_STRUCT_NON_ROOT_USER_APP_PROC BIT(24)
+#define TIF_NON_ROOT_USER_APP_PROC 33 // thread_info->flags is unsigned long :D
 
 #define AS_FLAGS_SUS_PATH 24
 #define AS_FLAGS_SUS_MOUNT 25
@@ -62,12 +61,14 @@
 #define AS_FLAGS_OPEN_REDIRECT 27
 #define AS_FLAGS_ANDROID_DATA_ROOT_DIR 28
 #define AS_FLAGS_SDCARD_ROOT_DIR 29
+#define AS_FLAGS_SUS_MAP 30
 #define BIT_SUS_PATH BIT(24)
 #define BIT_SUS_MOUNT BIT(25)
 #define BIT_SUS_KSTAT BIT(26)
 #define BIT_OPEN_REDIRECT BIT(27)
 #define BIT_ANDROID_DATA_ROOT_DIR BIT(28)
 #define BIT_ANDROID_SDCARD_ROOT_DIR BIT(29)
+#define BIT_SUS_MAPS BIT(30)
 
 #define ND_STATE_LOOKUP_LAST 32
 #define ND_STATE_OPEN_LAST 64
@@ -86,14 +87,6 @@ static inline bool susfs_is_current_non_root_user_app_proc(void) {
 
 static inline void susfs_set_current_non_root_user_app_proc(void) {
 	set_ti_thread_flag(&current->thread_info, TIF_NON_ROOT_USER_APP_PROC);
-}
-
-static inline bool susfs_is_current_proc_su_not_allowed(void) {
-	return test_ti_thread_flag(&current->thread_info, TIF_PROC_SU_NOT_ALLOWED);
-}
-
-static inline void susfs_set_current_proc_su_not_allowed(void) {
-	set_ti_thread_flag(&current->thread_info, TIF_PROC_SU_NOT_ALLOWED);
 }
 
 #endif // #ifndef KSU_SUSFS_DEF_H
