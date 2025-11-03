@@ -22,11 +22,6 @@
  #include "pnode.h"
  #include "internal.h"
  
- #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
- extern bool susfs_is_current_ksu_domain(void);
- bool susfs_hide_sus_mnts_for_all_procs = true; // hide sus mounts for all processes by default
- #endif
- 
  static unsigned mounts_poll(struct file *file, poll_table *wait)
  {
      struct seq_file *m = file->private_data;
@@ -125,11 +120,11 @@
      struct path mnt_path = { .dentry = mnt->mnt_root, .mnt = mnt };
      struct super_block *sb = mnt_path.dentry->d_sb;
      int err;
-	 
  #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
- 	 if (unlikely(r->mnt_id >= DEFAULT_SUS_MNT_ID)&&(susfs_hide_sus_mnts_for_all_procs || !susfs_is_current_ksu_domain()))
+ 	 if (unlikely(r->mnt_id >= DEFAULT_SUS_MNT_ID))
  		 return 0;
  #endif
+
 
      if (sb->s_op->show_devname) {
          err = sb->s_op->show_devname(m, mnt_path.dentry);
@@ -169,11 +164,11 @@
      struct super_block *sb = mnt->mnt_sb;
      struct path mnt_path = { .dentry = mnt->mnt_root, .mnt = mnt };
      int err;
-	 
  #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
- 	 if (unlikely(r->mnt_id >= DEFAULT_SUS_MNT_ID)&&(susfs_hide_sus_mnts_for_all_procs || !susfs_is_current_ksu_domain()))
+ 	 if (unlikely(r->mnt_id >= DEFAULT_SUS_MNT_ID))
  		 return 0;
  #endif
+
  
      seq_printf(m, "%i %i %u:%u ", r->mnt_id, r->mnt_parent->mnt_id,
             MAJOR(sb->s_dev), MINOR(sb->s_dev));
@@ -241,9 +236,8 @@
      struct path mnt_path = { .dentry = mnt->mnt_root, .mnt = mnt };
      struct super_block *sb = mnt_path.dentry->d_sb;
      int err;
-	 
  #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
- 	 if (unlikely(r->mnt_id >= DEFAULT_SUS_MNT_ID)&&(susfs_hide_sus_mnts_for_all_procs || !susfs_is_current_ksu_domain()))
+ 	 if (unlikely(r->mnt_id >= DEFAULT_SUS_MNT_ID))
     	 return 0;
  #endif
 
