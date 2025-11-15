@@ -26,4 +26,4 @@ touch .check
 echo "" >> Makefile
 sed -i '/warning /d' Makefile
 sed -i '/DKSU_VERSION/d' Makefile
-echo "ccflags-y += -DKSU_VERSION=$((10000 + $VERSION + 200))" >> Makefile
+echo "ccflags-y += -DKSU_VERSION=$((20000 + $VERSION + 200))" >> Makefile
