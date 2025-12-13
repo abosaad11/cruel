@@ -1,6 +1,6 @@
 name: Build
 
-on: [push]
+on: [push, workflow_dispatch]
 
 env:
   TOOLCHAIN: cruel
@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        model: [ "G970F,G973F,G975F" ]
+        model: [ "G973F" ]
 
     steps:
       - uses: actions/checkout@v4
